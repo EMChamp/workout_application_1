@@ -1,86 +1,67 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Table Example',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  List<Map<String, String>> data = [
-    {"Name": "John", "Age": "25", "City": "New York"},
-    {"Name": "Jane", "Age": "30", "City": "Los Angeles"},
-    {"Name": "Mike", "Age": "35", "City": "Chicago"},
-  ];
-
-  void _addData() {
-    setState(() {
-      data.add({"Name": "New User", "Age": "40", "City": "Houston"});
-    });
-  }
-
-  void _removeData() {
-    if (data.isNotEmpty) {
-      setState(() {
-        data.removeLast();
-      });
-    }
-  }
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Table Example'),
+        title: Text('Gym Workout Routine'),
       ),
-      body: Column(
-        children: [
-          DataTable(
-            columns: const <DataColumn>[
-              DataColumn(label: Text('Name')),
-              DataColumn(label: Text('Age')),
-              DataColumn(label: Text('City')),
-            ],
-            rows: data.map((item) {
-              return DataRow(cells: [
-                DataCell(Text(item['Name']!)),
-                DataCell(Text(item['Age']!)),
-                DataCell(Text(item['City']!)),
-              ]);
-            }).toList(),
-          ),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: _addData,
-                child: Text('Add Data'),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              child: Text('Menu'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
               ),
-              SizedBox(width: 20),
-              ElevatedButton(
-                onPressed: _removeData,
-                child: Text('Remove Data'),
-              ),
-            ],
-          ),
-        ],
+            ),
+            ListTile(
+              title: Text('Item 1'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                Navigator.pop(context);
+              },
+            ),
+            // Add more items here
+          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: DataTable(
+          columns: const <DataColumn>[
+            DataColumn(label: Text('Workout')),
+            DataColumn(label: Text('Sets')),
+            DataColumn(label: Text('Reps')),
+            DataColumn(label: Text('Weights')),
+            DataColumn(label: Text('Notes')),
+          ],
+          rows: const <DataRow>[
+            DataRow(
+              cells: <DataCell>[
+                DataCell(Text('Bench Press')),
+                DataCell(Text('3')),
+                DataCell(Text('10')),
+                DataCell(Text('100lbs')),
+                DataCell(Text('Focus on form')),
+              ],
+            ),
+            // Add more rows for other exercises
+          ],
+        ),
       ),
     );
   }
